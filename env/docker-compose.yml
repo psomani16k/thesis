@@ -1,0 +1,16 @@
+services:
+  ns3-dce:
+    build: .
+    container_name: mptcp_simulation
+    stdin_open: true
+    tty: true
+    volumes:
+      # This keeps your bake/ns3 files on your Fedora host
+      - ./../data:/workspace:Z
+      - ./../bins:/bins:Z
+    # Important for DCE kernel simulations
+    cap_add:
+      - SYS_ADMIN
+      - NET_ADMIN
+    security_opt:
+      - seccomp:unconfined
