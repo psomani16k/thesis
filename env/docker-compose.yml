@@ -8,6 +8,7 @@ services:
       # This keeps your bake/ns3 files on your Fedora host
       - ./../data:/workspace:Z
       - ./../bins:/bins:Z
+      - ./../config/:/home/appuser/.config
     # Important for DCE kernel simulations
     cap_add:
       - SYS_ADMIN
