@@ -79,8 +79,8 @@ ENV BAKE_ROOT="/workspace/bake"
 ##################################
 
 # Create a system group and user, and generate the home directory in one go
-RUN groupadd -r appuser -g 10001 && \
-    useradd -r -u 10001 -g appuser -m -d /home/appuser appuser
+RUN groupadd -r appuser -g 1000 && \
+    useradd -r -u 1000 -g appuser -m -d /home/appuser appuser
 
 # Set up your specific directories
 RUN mkdir -p /workspace /bins && \
