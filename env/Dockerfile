@@ -82,7 +82,8 @@ ENV BAKE_ROOT="/workspace/bake"
 #     3. Create a non-root user  #
 ##################################
 
-RUN groupadd -r appuser -g 1000 && useradd -r -u 1000 -g appuser appuser \
+RUN groupadd -r appuser -g 1000 \
+    && useradd -r -u 1000 -g appuser appuser \
     && mkdir -p /home/appuser
 
 RUN chown -R appuser:appuser /home/appuser \

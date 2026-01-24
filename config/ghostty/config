@@ -1,0 +1,23 @@
+# THEMES 
+
+theme = tokyonight_night
+font-family = CaskaydiaCove Nerd Font Mono
+window-decoration = false
+gtk-tabs-location = hidden
+command = /usr/bin/bash
+
+background-blur = true
+background-opacity = 0.5
+background = #000000 
+
+# KEYBINDS
+
+# closing things
+keybind = ctrl+alt+q=close_surface
+
+# fullscreen
+keybind = ctrl+alt+f=toggle_fullscreen
+# keybind = ctrl+alt+d=toggle_window_decorations
+
+# terminal
+command = /usr/bin/fish --login --interactive

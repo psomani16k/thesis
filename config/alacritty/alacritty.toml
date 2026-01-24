@@ -1,0 +1,47 @@
+[window]
+# opacity = 0.8
+blur = true
+decorations = "Transparent"
+# startup_mode = "Fullscreen"
+decorations_theme_variant = "Dark"
+
+[window.padding]
+x = 10
+y = 10
+
+[font]
+size = 10
+
+[font.normal]
+family = "CaskaydiaCove Nerd Font Mono"
+
+[cursor]
+thickness = 0.1
+
+[cursor.style]
+shape = "Beam"
+blinking = "Never"
+
+[colors.primary]
+# background = "#000000"
+
+# [[keyboard.bindings]]
+# key = "F"
+# mods = "Control|Alt"
+# action = "ToggleFullscreen"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Alt"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Alt"
+action = "Paste"
+
+[terminal]
+shell = { program = "/bin/fish" }
+
+[general]
+import = ["~/.config/alacritty/dank-theme.toml"]
