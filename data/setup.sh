@@ -1,9 +1,6 @@
 #!/bin/bash
 
 git clone https://gitlab.com/nsnam/bake.git ./bake
-cd ./bake
-git clone https://github.com/psomani16k/bake_mptcp_patch.git ./patch
-cd ..
 
 # go to the
 cd /workspace/bake
