@@ -1,3 +1,0 @@
-return {
-  'qpkorr/vim-renamer'
-}

@@ -1,1 +1,0 @@
-/usr/local/lib/bazel/bin/bazel.fish
