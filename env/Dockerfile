@@ -69,10 +69,6 @@ RUN curl -sS https://starship.rs/install.sh | sh -s -- -y
 #    2. SETTING UP BAKE          #
 ##################################
 
-WORKDIR /workspace
-RUN git clone https://gitlab.com/nsnam/bake.git ./bake
-
-WORKDIR /workspace/bake
 ENV PATH="${PATH}:/workspace/bake/build/bin"
 ENV LD_LIBRARY_PATH="/workspace/bake/build/lib"
 ENV DCE_PATH="/workspace/bake/build/bin_dce:/workspace/bake/build/sbin"
@@ -82,12 +78,13 @@ ENV BAKE_ROOT="/workspace/bake"
 #     3. Create a non-root user  #
 ##################################
 
-RUN groupadd -r appuser -g 1000 \
-    && useradd -r -u 1000 -g appuser appuser \
-    && mkdir -p /home/appuser
+# Create a system group and user, and generate the home directory in one go
+RUN groupadd -r appuser -g 10001 && \
+    useradd -r -u 10001 -g appuser -m -d /home/appuser appuser
 
-RUN chown -R appuser:appuser /home/appuser \
-    && chown -R appuser:appuser /workspace /bins
+# Set up your specific directories
+RUN mkdir -p /workspace /bins && \
+    chown -R appuser:appuser /home/appuser /workspace /bins
 
 # Switch to the non-root user
 USER appuser
