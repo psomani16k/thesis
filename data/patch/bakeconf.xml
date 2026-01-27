@@ -9,11 +9,52 @@
       <depends_on name="dce-meta-1.12" optional="False"/>
       <depends_on name="net-next-nuse-mptcp-custom" optional="False"/>
       <depends_on name="iproute2-4.4.0" optional="False"/>
+      <depends_on name="util-linux" optional="False"/>
       <depends_on name="lksctp-dev" optional="True"/>
       <build type="waf" objdir="objdir" sourcedir="ns-3-dce">
         <attribute name="supported_os" value="linux;linux2"/>
         <attribute name="configure_arguments" value="configure --prefix=$INSTALLDIR --with-ns3=$INSTALLDIR --with-glibc=$INSTALLDIR/glibc --with-libaspect=$INSTALLDIR --enable-kernel-stack=$SRCDIR/../net-next-nuse-mptcp/arch"/>
       </build>
+    </module>
+
+    <module name="util-linux">
+      <source type="git">
+        <attribute name="url" value="https://github.com/util-linux/util-linux.git"/>
+        <attribute name="module_directory" value="util-linux"/>
+        <attribute name="revision" value="stable/v2.35"/>
+        <attribute name="fetch_option" value=""/>
+      </source>
+       <build type="inline"  classname="UtilLinuxModuleBuild">
+         <attribute name="supported_os" value="linux;linux2"/>
+         <code>class UtilLinuxModuleBuild(InlineModuleBuild):
+    def __init__(self):
+        InlineModuleBuild.__init__(self)
+    def build(self, env, jobs):
+           jobstr=[]
+           if not jobs == -1:
+               jobstr = ['-j', str(jobs)]
+           env.run(['make'] + jobstr,
+           directory=env.srcdir)
+           env.run(['mkdir', '-p' , env.installdir + '/sbin/'],
+           directory=env.srcdir)
+           env.run(['cp', 'more', 'dmesg', 'kill', 'agetty', 'sulogin', 'nologin', 'ctrlaltdel', 'fsfreeze',
+                    'blkdiscard', 'blkzone', 'chcpu', 'pivot_root', 'switch_root', 'hwclock', 'fsck.minix',
+                    'mkfs.minix', 'mkfs', 'mkfs.bfs', 'raw', 'fsck.cramfs', 'mkfs.cramfs', 'blockdev', 'chrt',
+                    'ionice', 'taskset', 'col', 'colcrt', 'colrm', 'hexdump', 'rev', 'ul', 'script', 'scriptreplay',
+                    'scriptlive', 'setterm', 'mesg', 'wall', 'last', 'utmpdump', 'chmem', 'flock', 'choom', 'ipcmk',
+                    'ipcrm', 'ipcs', 'renice', 'setsid', 'setarch', 'fallocate', 'nsenter', 'cal', 'logger', 'look',
+                    'mcookie', 'namei', 'whereis', 'uuidgen', 'rename', 'getopt', 'hardlink', 'isosize', 'readprofile',
+                    'ldattach', 'rtcwake', 'uuidd', 'fdformat', 'addpart', 'delpart', 'resizepart', 'configure', 'libtool',
+                    'mount', 'umount', 'wdctl', 'mountpoint', 'lsblk', 'findmnt', 'fstrim', 'losetup', 'zramctl',
+                    'swapon', 'swapoff', 'blkid', 'findfs', 'wipefs', 'mkswap', 'swaplabel', 'fsck', 'fdisk',
+                    'sfdisk', 'cfdisk', 'column', 'lslogins', 'lsmem', 'lsipc', 'eject', 'prlimit', 'lsns', 'lscpu',
+                    'unshare', 'lslocks', 'uuidparse', 'fincore', 'rfkill', 'partx',
+                    env.installdir + '/sbin'], directory=env.srcdir)
+    def clean(self, env):
+           env.run(['make', 'distclean'], directory=env.srcdir)
+    def check_version(self, env):
+           return True</code>
+       </build>
     </module>
 
     <module name="net-next-nuse-mptcp-custom">
