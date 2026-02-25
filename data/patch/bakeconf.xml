@@ -2,9 +2,9 @@
   <modules>
     <module name="mptcp">
       <source type="git">
-        <attribute name="url" value="https://github.com/direct-code-execution/ns-3-dce.git"/>        
+	      <attribute name="url" value="https://github.com/psomani16k/ns-3-dce.git"/>        
         <attribute name="module_directory" value="ns-3-dce"/>
-        <attribute name="revision" value="dce-1.12"/>
+        <attribute name="revision" value="main"/>
       </source>
       <depends_on name="dce-meta-1.12" optional="False"/>
       <depends_on name="net-next-nuse-mptcp-custom" optional="False"/>
@@ -30,26 +30,33 @@
     def __init__(self):
         InlineModuleBuild.__init__(self)
     def build(self, env, jobs):
-           jobstr=[]
-           if not jobs == -1:
-               jobstr = ['-j', str(jobs)]
-           env.run(['make'] + jobstr,
-           directory=env.srcdir)
-           env.run(['mkdir', '-p' , env.installdir + '/sbin/'],
-           directory=env.srcdir)
-           env.run(['cp', 'more', 'dmesg', 'kill', 'agetty', 'sulogin', 'nologin', 'ctrlaltdel', 'fsfreeze',
-                    'blkdiscard', 'blkzone', 'chcpu', 'pivot_root', 'switch_root', 'hwclock', 'fsck.minix',
-                    'mkfs.minix', 'mkfs', 'mkfs.bfs', 'raw', 'fsck.cramfs', 'mkfs.cramfs', 'blockdev', 'chrt',
-                    'ionice', 'taskset', 'col', 'colcrt', 'colrm', 'hexdump', 'rev', 'ul', 'script', 'scriptreplay',
-                    'scriptlive', 'setterm', 'mesg', 'wall', 'last', 'utmpdump', 'chmem', 'flock', 'choom', 'ipcmk',
-                    'ipcrm', 'ipcs', 'renice', 'setsid', 'setarch', 'fallocate', 'nsenter', 'cal', 'logger', 'look',
-                    'mcookie', 'namei', 'whereis', 'uuidgen', 'rename', 'getopt', 'hardlink', 'isosize', 'readprofile',
-                    'ldattach', 'rtcwake', 'uuidd', 'fdformat', 'addpart', 'delpart', 'resizepart', 'configure', 'libtool',
-                    'mount', 'umount', 'wdctl', 'mountpoint', 'lsblk', 'findmnt', 'fstrim', 'losetup', 'zramctl',
-                    'swapon', 'swapoff', 'blkid', 'findfs', 'wipefs', 'mkswap', 'swaplabel', 'fsck', 'fdisk',
-                    'sfdisk', 'cfdisk', 'column', 'lslogins', 'lsmem', 'lsipc', 'eject', 'prlimit', 'lsns', 'lscpu',
-                    'unshare', 'lslocks', 'uuidparse', 'fincore', 'rfkill', 'partx',
-                    env.installdir + '/sbin'], directory=env.srcdir)
+          env.run(['./autogen.sh'], directory=env.srcdir)
+          env.run(['./configure',
+          'CFLAGS=-fPIC -U_FORTIFY_SOURCE',
+          'LDFLAGS=-pie -rdynamic',
+          '--disable-shared',
+          '--without-python',
+          '--disable-makeinstall-chown'], directory=env.srcdir)
+          jobstr=[]
+          if not jobs == -1:
+              jobstr = ['-j', str(jobs)]
+          env.run(['make'] + jobstr,
+          directory=env.srcdir)
+          env.run(['mkdir', '-p' , env.installdir + '/sbin/'],
+          directory=env.srcdir)
+          env.run(['cp', 'more', 'dmesg', 'kill', 'agetty', 'sulogin', 'nologin', 'ctrlaltdel', 'fsfreeze',
+                   'blkdiscard', 'blkzone', 'chcpu', 'pivot_root', 'switch_root', 'hwclock', 'fsck.minix',
+                   'mkfs.minix', 'mkfs', 'mkfs.bfs', 'raw', 'fsck.cramfs', 'mkfs.cramfs', 'blockdev', 'chrt',
+                   'ionice', 'taskset', 'col', 'colcrt', 'colrm', 'hexdump', 'rev', 'ul', 'script', 'scriptreplay',
+                   'scriptlive', 'setterm', 'mesg', 'wall', 'last', 'utmpdump', 'chmem', 'flock', 'choom', 'ipcmk',
+                   'ipcrm', 'ipcs', 'renice', 'setsid', 'setarch', 'fallocate', 'nsenter', 'cal', 'logger', 'look',
+                   'mcookie', 'namei', 'whereis', 'uuidgen', 'rename', 'getopt', 'hardlink', 'isosize', 'readprofile',
+                   'ldattach', 'rtcwake', 'uuidd', 'fdformat', 'addpart', 'delpart', 'resizepart', 'configure', 'libtool',
+                   'mount', 'umount', 'wdctl', 'mountpoint', 'lsblk', 'findmnt', 'fstrim', 'losetup', 'zramctl',
+                   'swapon', 'swapoff', 'blkid', 'findfs', 'wipefs', 'mkswap', 'swaplabel', 'fsck', 'fdisk',
+                   'sfdisk', 'cfdisk', 'column', 'lslogins', 'lsmem', 'lsipc', 'eject', 'prlimit', 'lsns', 'lscpu',
+                   'unshare', 'lslocks', 'uuidparse', 'fincore', 'rfkill', 'partx',
+                   env.installdir + '/sbin'], directory=env.srcdir)
     def clean(self, env):
            env.run(['make', 'distclean'], directory=env.srcdir)
     def check_version(self, env):
@@ -2771,9 +2778,27 @@
     <!-- dce-1.12 -->
     <module name="dce-meta-1.12">
       <source type="git">
-	<attribute name="url" value="https://github.com/direct-code-execution/ns-3-dce.git"/>        
+	      <attribute name="url" value="https://github.com/direct-code-execution/ns-3-dce.git"/>        
         <attribute name="module_directory" value="ns-3-dce"/>
         <attribute name="revision" value="dce-1.12"/>
+      </source>
+      <depends_on name="ns-3.35" optional="False"/>
+      <depends_on name="glibc-2.31" optional="False"/>
+      <depends_on name="linux-dev" optional="False"/>
+      <depends_on name="libaspect" optional="True"/>
+      <depends_on name="iperf" optional="True"/>
+      <depends_on name="wget" optional="True"/>
+      <depends_on name="thttpd" optional="True"/>
+      <depends_on name="bash" optional="True"/>
+      <build type="none">
+      </build>
+    </module>
+
+    <module name="dce-meta-fw-dly">
+      <source type="git">
+	      <attribute name="url" value="https://github.com/psomani16k/ns-3-dce.git"/>        
+        <attribute name="module_directory" value="ns-3-dce"/>
+        <attribute name="revision" value="main"/>
       </source>
       <depends_on name="ns-3.35" optional="False"/>
       <depends_on name="glibc-2.31" optional="False"/>
