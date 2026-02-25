@@ -6,7 +6,7 @@
         <attribute name="module_directory" value="ns-3-dce"/>
         <attribute name="revision" value="main"/>
       </source>
-      <depends_on name="dce-meta-1.12" optional="False"/>
+      <depends_on name="dce-meta-fw-dly" optional="False"/>
       <depends_on name="net-next-nuse-mptcp-custom" optional="False"/>
       <depends_on name="iproute2-4.4.0" optional="False"/>
       <depends_on name="util-linux" optional="False"/>
